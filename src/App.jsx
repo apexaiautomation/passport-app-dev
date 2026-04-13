@@ -14,9 +14,9 @@ const PHOTO_HEIGHT = 472;
 const MARGIN_LEFT = 60;
 const MARGIN_TOP = 60;
 
-const SHOP_NAME = 'MONA ART';
+const BRAND_NAME = 'Apex AI Automation';
 const SHOP_TAGLINE = 'Passport photo maker with background removal and A4 print layout';
-const SHOP_CONTACT = 'Contact: 995459588';
+const FOOTER_TEXT = 'Apex AI Automation - Fast passport, visa, ID, and application photo service.';
 
 const BG_COLORS = [
   { name: 'White', value: '#ffffff' },
@@ -421,7 +421,7 @@ export default function App() {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = `MONA_ART_Passport_Sheet_${Date.now()}.jpg`;
+        link.download = `Apex_AI_Automation_Passport_Sheet_${Date.now()}.jpg`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -431,52 +431,52 @@ export default function App() {
   };
 
   const handlePrint = () => {
-  const printWindow = window.open('', '_blank');
+    const printWindow = window.open('', '_blank');
 
-  printWindow.document.write(`
-    <html>
-      <head>
-        <title>Print Passport Photos</title>
-        <style>
-          @page {
-            size: A4;
-            margin: 0;
-          }
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print Passport Photos</title>
+          <style>
+            @page {
+              size: A4;
+              margin: 0;
+            }
 
-          html, body {
-            margin: 0;
-            padding: 0;
-            width: 210mm;
-            height: 297mm;
-            background: white;
-          }
+            html, body {
+              margin: 0;
+              padding: 0;
+              width: 210mm;
+              height: 297mm;
+              background: white;
+            }
 
-          .wrapper {
-            position: relative;
-            width: 210mm;
-            height: 297mm;
-            background: white;
-          }
+            .wrapper {
+              position: relative;
+              width: 210mm;
+              height: 297mm;
+              background: white;
+            }
 
-          .print-image {
-            position: absolute;
-            top: .5mm;
-            left: .5mm;
-            width: 204mm; /* 210 - 3 - 3 */
-            height: auto;
-          }
-        </style>
-      </head>
-      <body onload="window.print(); window.close();">
-        <div class="wrapper">
-          <img src="${finalA4Sheet}" class="print-image" />
-        </div>
-      </body>
-    </html>
-  `);
+            .print-image {
+              position: absolute;
+              top: .5mm;
+              left: .5mm;
+              width: 204mm;
+              height: auto;
+            }
+          </style>
+        </head>
+        <body onload="window.print(); window.close();">
+          <div class="wrapper">
+            <img src="${finalA4Sheet}" class="print-image" />
+          </div>
+        </body>
+      </html>
+    `);
 
-  printWindow.document.close();
-};
+    printWindow.document.close();
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col">
@@ -485,21 +485,20 @@ export default function App() {
           <div className="shrink-0">
             <img
               src={logo}
-              alt="Mona Art Logo"
+              alt="Apex AI Automation Logo"
               className="h-12 w-auto object-contain bg-white p-1 rounded-md shadow-sm"
             />
           </div>
 
           <div>
             <h1 className="text-lg sm:text-2xl font-black text-slate-800 tracking-tight">
-              {SHOP_NAME} <span className="text-indigo-600">Instant Passport Photo Maker – Print Ready in Seconds</span>
+              <span className="text-indigo-600">Instant Passport Photo Maker – Print Ready in Seconds</span>
             </h1>
             <p className="text-xs sm:text-sm text-slate-500">{SHOP_TAGLINE}</p>
           </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
-          <div className="text-sm font-semibold text-slate-600">{SHOP_CONTACT}</div>
           {step !== 'upload' && (
             <button
               onClick={resetApp}
@@ -750,7 +749,7 @@ export default function App() {
             <div className="w-full max-w-6xl flex flex-col lg:flex-row gap-8 h-full pb-8">
               <div className="flex-1 bg-white shadow-2xl rounded-3xl p-5 sm:p-10 overflow-auto flex flex-col items-center border border-slate-200">
                 <div className="w-full text-center mb-6">
-                  <h2 className="text-2xl font-black text-slate-800">{SHOP_NAME} Print Preview</h2>
+                  <h2 className="text-2xl font-black text-slate-800">Print Preview</h2>
                   <p className="text-slate-500">Ready for passport, visa, ID, and application photo printing.</p>
                 </div>
                 <div className="bg-slate-200/30 p-4 sm:p-12 shadow-inner rounded-2xl border-2 border-dashed border-slate-300">
@@ -790,9 +789,8 @@ export default function App() {
                 </div>
 
                 <div className="bg-white rounded-3xl p-6 shadow-xl border border-slate-200 text-sm text-slate-600">
-                  <p className="font-bold text-slate-800 mb-2">{SHOP_NAME}</p>
-                  <p>{SHOP_TAGLINE}</p>
-                  <p className="mt-3">{SHOP_CONTACT}</p>
+                  <p className="font-bold text-slate-800 mb-2">{BRAND_NAME}</p>
+                  <p>Fast passport, visa, ID, and application photo service.</p>
                 </div>
               </div>
             </div>
@@ -801,11 +799,8 @@ export default function App() {
       </div>
 
       <footer className="bg-white border-t px-4 sm:px-6 lg:px-8 py-4 text-sm text-slate-600">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between gap-3">
-          <div>
-            <span className="font-bold text-slate-800">{SHOP_NAME}</span> — Fast passport, visa, ID, and application photo service.
-          </div>
-          <div>{SHOP_CONTACT}</div>
+        <div className="max-w-7xl mx-auto text-center">
+          {FOOTER_TEXT}
         </div>
       </footer>
     </div>
