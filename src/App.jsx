@@ -169,6 +169,7 @@ export default function App() {
     const reader = new FileReader();
     reader.onload = (event) => {
       setOriginalImage(event.target.result);
+      setFinalA4Sheet(null);
       setProcessStatus('');
       setStep('crop');
     };
