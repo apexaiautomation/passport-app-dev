@@ -26,7 +26,7 @@ const BG_COLORS = [
 
 const MIN_FRAME_WIDTH = 160;
 const MAX_FRAME_WIDTH = 340;
-const FRAME_RATIO = 35 / 45; // width / height
+const FRAME_RATIO = 33 / 40; // width / height
 const INITIAL_FRAME_WIDTH = 240;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -184,7 +184,7 @@ export default function App() {
     setBrightness(100);
     setContrast(100);
     setBgColor('#ffffff');
-    setPhotoCount(25);
+    setPhotoCount(30);
     setIsDraggingImage(false);
     setIsDraggingFrame(false);
     setIsResizingFrame(false);
