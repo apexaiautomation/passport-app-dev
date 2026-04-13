@@ -169,6 +169,7 @@ export default function App() {
     const reader = new FileReader();
     reader.onload = (event) => {
       setOriginalImage(event.target.result);
+      setProcessStatus('');
       setStep('crop');
     };
     reader.readAsDataURL(file);
@@ -188,6 +189,12 @@ export default function App() {
     setIsDraggingImage(false);
     setIsDraggingFrame(false);
     setIsResizingFrame(false);
+    setFrame({
+      x: 0,
+      y: 0,
+      width: INITIAL_FRAME_WIDTH,
+      height: Math.round(INITIAL_FRAME_WIDTH / FRAME_RATIO)
+    });
   };
 
   const centerImageManually = () => {
@@ -331,48 +338,69 @@ export default function App() {
       const response = await fetch('/.netlify/functions/remove-bg', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: croppedSrc.split(',')[1] })
+        body: JSON.stringify({ image: croppedSrc.split(',')[1] }),
+        cache: 'no-store'
       });
 
       if (!response.ok) {
         const errText = await response.text();
+        console.error('Background removal failed:', errText);
         throw new Error(errText || 'Background removal failed');
+      }
+
+      const contentType = response.headers.get('content-type') || '';
+
+      if (!contentType.includes('image/')) {
+        const text = await response.text();
+        console.error('Unexpected response:', text);
+        throw new Error('Function did not return an image');
       }
 
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
 
-      const img = new Image();
-      await new Promise((resolve, reject) => {
-        img.onload = resolve;
-        img.onerror = reject;
-        img.src = url;
-      });
+      try {
+        const img = new Image();
 
-      const canvas = document.createElement('canvas');
-      canvas.width = PHOTO_WIDTH;
-      canvas.height = PHOTO_HEIGHT;
-      const ctx = canvas.getContext('2d');
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+          img.src = url;
+        });
 
-      ctx.fillStyle = bgColor;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, PHOTO_WIDTH, PHOTO_HEIGHT);
+        const canvas = document.createElement('canvas');
+        canvas.width = PHOTO_WIDTH;
+        canvas.height = PHOTO_HEIGHT;
+        const ctx = canvas.getContext('2d');
 
-      finalPhotoSrc = canvas.toDataURL('image/jpeg', 0.95);
-      URL.revokeObjectURL(url);
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, PHOTO_WIDTH, PHOTO_HEIGHT);
+
+        finalPhotoSrc = canvas.toDataURL('image/jpeg', 0.95);
+      } finally {
+        URL.revokeObjectURL(url);
+      }
     } catch (err) {
       console.error('Background removal failed:', err);
-      alert('Background removal failed. Please try again.');
+      alert('Background removal failed. Using original cropped image instead.');
+      finalPhotoSrc = croppedSrc;
     }
 
-    setProcessStatus('Generating print sheet...');
-    const a4Src = await generateA4Sheet(finalPhotoSrc);
-    setFinalA4Sheet(a4Src);
-    setStep('result');
+    try {
+      setProcessStatus('Generating print sheet...');
+      const a4Src = await generateA4Sheet(finalPhotoSrc);
+      setFinalA4Sheet(a4Src);
+      setStep('result');
+    } catch (err) {
+      console.error('Sheet generation failed:', err);
+      alert('Failed to generate print sheet.');
+      setStep('crop');
+    }
   };
 
   const generateA4Sheet = (photoSrc) =>
-    new Promise((resolve) => {
+    new Promise((resolve, reject) => {
       const canvas = document.createElement('canvas');
       canvas.width = A4_WIDTH;
       canvas.height = A4_HEIGHT;
@@ -409,6 +437,7 @@ export default function App() {
         resolve(canvas.toDataURL('image/jpeg', 0.9));
       };
 
+      img.onerror = () => reject(new Error('Failed to load processed image'));
       img.src = photoSrc;
     });
 
@@ -432,6 +461,7 @@ export default function App() {
 
   const handlePrint = () => {
     const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
 
     printWindow.document.write(`
       <html>
