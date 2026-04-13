@@ -97,7 +97,7 @@ export default function App() {
   const [brightness, setBrightness] = useState(100);
   const [contrast, setContrast] = useState(100);
   const [bgColor, setBgColor] = useState('#ffffff');
-  const [photoCount, setPhotoCount] = useState(25);
+  const [photoCount, setPhotoCount] = useState(30);
 
   const [frame, setFrame] = useState({
     x: 0,
