@@ -72,23 +72,76 @@ export async function handler(event) {
       };
     }
 
-    const buffer = await response.arrayBuffer();
+    export async function handler(event) {
+  try {
+    if (event.httpMethod !== 'POST') {
+      return {
+        statusCode: 405,
+        body: 'Method Not Allowed'
+      };
+    }
+
+    const apiKey = process.env.REMOVE_BG_API_KEY;
+    if (!apiKey) {
+      return {
+        statusCode: 500,
+        body: 'Missing REMOVE_BG_API_KEY'
+      };
+    }
+
+    const { image } = JSON.parse(event.body || '{}');
+    if (!image) {
+      return {
+        statusCode: 400,
+        body: 'Missing image data'
+      };
+    }
+
+    // Detect mime type from base64 header if present, else default to jpeg
+    const mimeMatch = event.body.match(/data:(image\/[a-zA-Z0-9.+-]+);base64,/);
+    const mimeType = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+    const extension = mimeType.split('/')[1] || 'jpg';
+
+    const bytes = Buffer.from(image, 'base64');
+    const blob = new Blob([bytes], { type: mimeType });
+
+    const formData = new FormData();
+    formData.append('size', 'auto');
+    formData.append('image_file', blob, `upload.${extension}`);
+
+    const response = await fetch('https://api.remove.bg/v1.0/removebg', {
+      method: 'POST',
+      headers: {
+        'X-Api-Key': apiKey
+      },
+      body: formData
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('remove.bg error:', response.status, errorText);
+      return {
+        statusCode: response.status,
+        body: errorText
+      };
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    const base64 = Buffer.from(arrayBuffer).toString('base64');
 
     return {
       statusCode: 200,
       headers: {
-        "Content-Type": "image/png"
+        'Content-Type': 'image/png'
       },
-      body: Buffer.from(buffer).toString("base64"),
-      isBase64Encoded: true
+      isBase64Encoded: true,
+      body: base64
     };
-
-  } catch (err) {
-    console.error("Function crash:", err);
-
+  } catch (error) {
+    console.error('Function crash:', error);
     return {
       statusCode: 500,
-      body: err.message
+      body: error?.message || 'Server error'
     };
   }
 }
