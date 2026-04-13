@@ -492,7 +492,7 @@ export default function App() {
 
           <div>
             <h1 className="text-lg sm:text-2xl font-black text-slate-800 tracking-tight">
-              {SHOP_NAME} <span className="text-indigo-600">PASSPORT STUDIO</span>
+              {SHOP_NAME} <span className="text-indigo-600">PASSPORT PHOTO PRINTING</span>
             </h1>
             <p className="text-xs sm:text-sm text-slate-500">{SHOP_TAGLINE}</p>
           </div>
