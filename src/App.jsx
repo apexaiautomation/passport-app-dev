@@ -4,7 +4,7 @@ import logo from './assets/passport-photo.png';
 /**
  * CONSTANTS
  * Based on 300 DPI for high-quality printing
- * 35mm x 45mm at 300 DPI is approx 413x531 px
+ * 33mm x 40mm passport size at 300 DPI
  */
 const A4_WIDTH = 2480;
 const A4_HEIGHT = 3508;
@@ -15,8 +15,9 @@ const MARGIN_LEFT = 60;
 const MARGIN_TOP = 60;
 
 const BRAND_NAME = 'Apex AI Automation';
-const SHOP_TAGLINE = 'Passport photo maker with background removal and A4 print layout';
-const FOOTER_TEXT = 'Apex AI Automation - Fast passport, visa, ID, and application photo service.';
+const SHOP_TAGLINE = 'Remove Background • Smart A4 Layout • Just Print';
+const FOOTER_TEXT =
+  'Apex AI Automation - Fast passport, visa, ID, and application photo service.';
 
 const BG_COLORS = [
   { name: 'White', value: '#ffffff' },
@@ -33,28 +34,68 @@ const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 const Icons = {
   Upload: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
       <polyline points="17 8 12 3 7 8" />
       <line x1="12" y1="3" x2="12" y2="15" />
     </svg>
   ),
   Printer: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <polyline points="6 9 6 2 18 2 18 9" />
       <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
       <rect x="6" y="14" width="12" height="8" />
     </svg>
   ),
   Download: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
       <polyline points="7 10 12 15 17 10" />
       <line x1="12" y1="15" x2="12" y2="3" />
     </svg>
   ),
   Restart: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
       <path d="M21 3v5h-5" />
       <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
@@ -62,13 +103,33 @@ const Icons = {
     </svg>
   ),
   ArrowRight: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <line x1="5" y1="12" x2="19" y2="12" />
       <polyline points="12 5 19 12 12 19" />
     </svg>
   ),
   Grid: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect x="3" y="3" width="7" height="7" />
       <rect x="14" y="3" width="7" height="7" />
       <rect x="14" y="14" width="7" height="7" />
@@ -76,7 +137,17 @@ const Icons = {
     </svg>
   ),
   Shield: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
     </svg>
   )
@@ -107,8 +178,17 @@ export default function App() {
   });
 
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [frameDragStart, setFrameDragStart] = useState({ x: 0, y: 0, frameX: 0, frameY: 0 });
-  const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: INITIAL_FRAME_WIDTH });
+  const [frameDragStart, setFrameDragStart] = useState({
+    x: 0,
+    y: 0,
+    frameX: 0,
+    frameY: 0
+  });
+  const [resizeStart, setResizeStart] = useState({
+    x: 0,
+    y: 0,
+    width: INITIAL_FRAME_WIDTH
+  });
 
   const imageRef = useRef(null);
   const containerRef = useRef(null);
@@ -119,9 +199,15 @@ export default function App() {
       try {
         if (typeof __firebase_config === 'undefined') return;
 
-        const { initializeApp } = await import('https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js');
-        const { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } =
-          await import('https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js');
+        const { initializeApp } = await import(
+          'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js'
+        );
+        const {
+          getAuth,
+          signInAnonymously,
+          signInWithCustomToken,
+          onAuthStateChanged
+        } = await import('https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js');
 
         const firebaseConfig = JSON.parse(__firebase_config);
         const app = initializeApp(firebaseConfig);
@@ -277,7 +363,11 @@ export default function App() {
 
     if (isResizingFrame) {
       const deltaX = e.clientX - resizeStart.x;
-      const nextWidth = clamp(resizeStart.width + deltaX, MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
+      const nextWidth = clamp(
+        resizeStart.width + deltaX,
+        MIN_FRAME_WIDTH,
+        MAX_FRAME_WIDTH
+      );
       const nextHeight = Math.round(nextWidth / FRAME_RATIO);
 
       setFrame((prev) => ({
@@ -336,12 +426,26 @@ export default function App() {
     try {
       setProcessStatus('Removing background...');
 
-      const response = await fetch('/.netlify/functions/remove-bg', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: croppedSrc.split(',')[1] }),
-        cache: 'no-store'
-      });
+      const formData = new FormData();
+
+      const byteString = atob(croppedSrc.split(',')[1]);
+      const arrayBuffer = new ArrayBuffer(byteString.length);
+      const uint8Array = new Uint8Array(arrayBuffer);
+
+      for (let i = 0; i < byteString.length; i++) {
+        uint8Array[i] = byteString.charCodeAt(i);
+      }
+
+      const blob = new Blob([uint8Array], { type: 'image/jpeg' });
+      formData.append('file', blob, 'photo.jpg');
+
+      const response = await fetch(
+  'https://apex-passport-photo.onrender.com/remove-bg',
+  {
+    method: 'POST',
+    body: formData,
+  }
+);
 
       if (!response.ok) {
         const errText = await response.text();
@@ -357,8 +461,8 @@ export default function App() {
         throw new Error('Function did not return an image');
       }
 
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
+      const resultBlob = await response.blob();
+      const url = URL.createObjectURL(resultBlob);
 
       try {
         const img = new Image();
@@ -412,6 +516,7 @@ export default function App() {
 
       const img = new Image();
       img.crossOrigin = 'anonymous';
+
       img.onload = () => {
         const cols = 5;
         const rows = 6;
@@ -511,25 +616,31 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col">
-      <header className="bg-white border-b px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 z-50 shrink-0 shadow-sm">
-        <div className="flex items-center gap-3">
+      <header className="bg-white border-b px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row lg:items-center gap-4 z-50 shrink-0 shadow-sm">
+        <div className="flex items-center gap-4 w-full">
           <div className="shrink-0">
             <img
               src={logo}
               alt="Apex AI Automation Logo"
-              className="h-12 w-auto object-contain bg-white p-1 rounded-md shadow-sm"
+              className="h-16 w-auto object-contain bg-white p-1 rounded-md shadow-sm"
             />
           </div>
 
-          <div>
-            <h1 className="text-lg sm:text-2xl font-black text-slate-800 tracking-tight">
-              <span className="text-indigo-600">Instant Passport Photo Maker – Print Ready in Seconds</span>
+          <div className="flex-1 text-center">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 leading-tight">
+              <span className="block text-indigo-600">Instant Passport Photo Maker</span>
+              <span className="block text-slate-700 text-xl sm:text-3xl lg:text-4xl">
+                Print Ready in Seconds
+              </span>
             </h1>
-            <p className="text-xs sm:text-sm text-slate-500">{SHOP_TAGLINE}</p>
+
+            <p className="mt-2 text-base sm:text-lg lg:text-xl font-semibold text-slate-700 tracking-wide">
+              {SHOP_TAGLINE}
+            </p>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4 justify-end">
           {step !== 'upload' && (
             <button
               onClick={resetApp}
@@ -554,19 +665,30 @@ export default function App() {
           {step === 'upload' && (
             <div className="w-full max-w-6xl grid lg:grid-cols-[1.2fr_0.8fr] gap-8 items-start">
               <div
-                className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl border-2 border-dashed border-slate-300 flex flex-col items-center text-center cursor-pointer hover:border-indigo-400 transition-all group"
+                className="rounded-3xl p-8 sm:p-12 shadow-xl border-2 border-dashed flex flex-col items-center text-center cursor-pointer transition-all group"
+                style={{ backgroundColor: '#ffe5e5', borderColor: '#ff4d4d' }}
                 onClick={() => fileInputRef.current?.click()}
               >
-                <div className="w-24 h-24 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                <div className="w-24 h-24 bg-red-100 text-red-500 rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
                   <Icons.Upload />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-black mb-4 text-slate-800">Upload Customer Photo</h2>
-                <p className="text-slate-500 text-base sm:text-lg mb-8 max-w-md">
-                  Drag and drop or click to upload. Clear portrait photos give the best passport print result.
+
+                <h2 className="text-2xl sm:text-3xl font-black mb-4 text-slate-800">
+                  Upload Customer Photo
+                </h2>
+
+                <p className="text-slate-600 text-base sm:text-lg mb-8 max-w-md">
+                  Drag and drop or click to upload. Clear portrait photos give the best
+                  passport print result.
                 </p>
-                <button className="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all">
-                  Select Photo
+
+                <button
+                  type="button"
+                  className="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all"
+                >
+                  Upload Photo
                 </button>
+
                 <input
                   type="file"
                   ref={fileInputRef}
@@ -577,7 +699,10 @@ export default function App() {
               </div>
 
               <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-200">
-                <h3 className="font-black text-slate-800 text-xl mb-6">Customer Instructions</h3>
+                <h3 className="font-black text-slate-800 text-xl mb-6">
+                  Customer Instructions
+                </h3>
+
                 <div className="space-y-4 text-slate-600">
                   <p>• Face should be clearly visible and front-facing.</p>
                   <p>• Use a plain background if possible.</p>
@@ -590,7 +715,8 @@ export default function App() {
                     <Icons.Shield /> Trust & Safety
                   </div>
                   <p className="text-sm text-slate-600">
-                    Photos are processed securely. Please do not upload sensitive photos unless required.
+                    Photos are processed securely. Please do not upload sensitive photos
+                    unless required.
                   </p>
                 </div>
               </div>
@@ -666,6 +792,7 @@ export default function App() {
                       <div className="flex justify-between text-[10px] font-black text-slate-400 uppercase">
                         <span>Background</span>
                       </div>
+
                       <div className="flex gap-2">
                         {BG_COLORS.map((color) => (
                           <button
@@ -677,6 +804,7 @@ export default function App() {
                                 : 'border-slate-100 hover:border-slate-300'
                             }`}
                             title={color.name}
+                            type="button"
                           >
                             <div
                               className="w-4 h-4 rounded-full border border-slate-200"
@@ -755,7 +883,8 @@ export default function App() {
                 </div>
 
                 <div className="bg-white rounded-3xl p-5 shadow-xl border border-slate-200 text-sm text-slate-600">
-                  Move the photo by dragging the image. Move the frame by dragging the frame. Resize the frame using the bottom-right handle.
+                  Move the photo by dragging the image. Move the frame by dragging the
+                  frame. Resize the frame using the bottom-right handle.
                 </div>
 
                 <button
@@ -771,7 +900,9 @@ export default function App() {
           {step === 'process' && (
             <div className="bg-white p-10 sm:p-16 rounded-[3rem] shadow-2xl flex flex-col items-center text-center">
               <div className="w-20 h-20 border-4 border-indigo-50 border-t-indigo-600 rounded-full animate-spin mb-8"></div>
-              <h3 className="text-2xl font-black text-slate-800 mb-2">Processing Photo</h3>
+              <h3 className="text-2xl font-black text-slate-800 mb-2">
+                Processing Photo
+              </h3>
               <p className="text-slate-400 font-medium">{processStatus}</p>
             </div>
           )}
@@ -781,8 +912,11 @@ export default function App() {
               <div className="flex-1 bg-white shadow-2xl rounded-3xl p-5 sm:p-10 overflow-auto flex flex-col items-center border border-slate-200">
                 <div className="w-full text-center mb-6">
                   <h2 className="text-2xl font-black text-slate-800">Print Preview</h2>
-                  <p className="text-slate-500">Ready for passport, visa, ID, and application photo printing.</p>
+                  <p className="text-slate-500">
+                    Ready for passport, visa, ID, and application photo printing.
+                  </p>
                 </div>
+
                 <div className="bg-slate-200/30 p-4 sm:p-12 shadow-inner rounded-2xl border-2 border-dashed border-slate-300">
                   <img
                     src={finalA4Sheet}
@@ -797,6 +931,7 @@ export default function App() {
                   <h3 className="font-black text-slate-800 uppercase tracking-tighter text-xs mb-6">
                     Print Station
                   </h3>
+
                   <div className="space-y-4">
                     <button
                       onClick={handlePrint}
@@ -804,12 +939,14 @@ export default function App() {
                     >
                       <Icons.Printer /> Print Sheet
                     </button>
+
                     <button
                       onClick={handleDownload}
                       className="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-black transition-all"
                     >
                       <Icons.Download /> Download JPEG
                     </button>
+
                     <button
                       onClick={resetApp}
                       className="w-full bg-slate-100 text-slate-800 py-4 rounded-2xl font-bold hover:bg-slate-200 transition-all"
@@ -830,9 +967,7 @@ export default function App() {
       </div>
 
       <footer className="bg-white border-t px-4 sm:px-6 lg:px-8 py-4 text-sm text-slate-600">
-        <div className="max-w-7xl mx-auto text-center">
-          {FOOTER_TEXT}
-        </div>
+        <div className="max-w-7xl mx-auto text-center">{FOOTER_TEXT}</div>
       </footer>
     </div>
   );
